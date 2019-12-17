@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>我的商品</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/jud.css}">
+
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/vector.js}"></script>
+
+</head>
+<body>
+<div id="container">
+	<div id="output">
+		<div class="left" th:object="${u}">
+   			<p th:text="'用户编号：' + *{userid}+'&nbsp;&nbsp;用户姓名：' + *{username}+'&nbsp;&nbsp;用户种类：' + *{usertype}"/>
+   		</div>
+   		<div class="right">
+   			<a href="/login.html">注销</a>
+		</div>
+		<div class="containerT">
+		<div id="table1">
+    	<table border="1"> 
+        <tr bordercolor="#FFFFFF"><td>No.</td><td>商品编号</td><td>商品名字</td><td>商品拥有人编号</td><td>商品描述</td><td>商品类型</td><td>商品价格</td><td></td></tr>
+        <tr bordercolor="#FFFFFF" th:each="commodity,memberStat:${com}">
+            <td th:text="${memberStat.index + 1}"/>
+            <td th:text="${commodity.comid}"/>
+            <td th:text="${commodity.comname}"/>
+            <td th:text="${commodity.ownmanid}"/>
+            <td th:text="${commodity.details}"/>
+            <td th:text="${commodity.comtype}"/>
+            <td th:text="${commodity.price}"/>
+            <td>
+            <form class="form" id="entry_form" action="/user/deletecom" method="post">
+            	<div th:object="${u}">
+					<input type="hidden" name="username" th:value=*{username}>
+					<input type="hidden" name="usertype" th:value=*{usertype}>
+				</div>
+				<input type="hidden" name="comid" th:value=${commodity.comid}>
+				<input type="submit" value="下架商品" id="entry_btn">
+			</form>
+            </td>
+        </tr>
+    	</table>
+
+		</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        Victor("container", "output");   //登录背景函数
+        $("#entry_name").focus();
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $("#entry_btn").click();
+            }
+        });
+    });
+</script>
+<div style="text-align:center;">
+
+</div>
+</body>
+</html>
